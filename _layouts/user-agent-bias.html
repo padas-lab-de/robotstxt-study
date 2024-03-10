@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="{{ site.lang | default: "en-US" }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Robots.txt study</title>
+
+    <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+    <meta name="viewport" content="width=device-width">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="{{ '/assets/js/jquery-3.6.0.min.js?v=' | append: site.github.build_revision | relative_url }}"></script>
+    <style>
+      table.matrix tbody tr th {
+        font-weight: bold;
+      }
+      table tbody th { font-weight: normal; }
+      table tbody td { text-align: right; }
+    </style>
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>{{ site.title | default: site.github.repository_name }}</h1>
+        <p>{{ site.description | default: site.github.project_tagline }}
+        </p>
+
+        {% if site.show_navigation %}
+          <nav>
+            <p>
+            {% for node in site.navlist %}
+              <a href="{{ site.baseurl }}{{ node.url }}">{{ node.title }}</a><br/>
+            {% endfor %}
+            </p>
+          </nav>
+        {% endif %}
+
+        <p class="view"><a href="https://opencode.it4i.eu/openwebsearcheu-public/commoncrawl-parser">View the Software Project on GitLab</a></p>
+
+      </header>
+      <section>
+
+      {{ content }}
+
+      <div style="display: flex; justify-content: center;">
+        <button id="decreaseButton" class="button">&#8592;</button>
+        <input type="text" id="numberField" class="text-field" style="width: 60px; padding: 2px; text-align: center;" readonly>
+        <button id="increaseButton" class="button">&#8594;</button>
+      </div>
+      
+      <br>
+      {% for table in page.tables_years %}
+      {% include_relative {{ table }} %}
+      {% endfor %}
+      <br>
+
+      </section>
+      <footer>
+        {% if site.github.is_project_page %}
+        <p>This project is maintained by <a href="{{ site.github.owner_url }}">{{ site.github.owner_name }}</a></p>
+        {% endif %}
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="{{ '/assets/js/scale.fix.js' | relative_url }}"></script>
+    <script>
+      const numberField = document.getElementById('numberField');
+      const decreaseButton = document.getElementById('decreaseButton');
+      const increaseButton = document.getElementById('increaseButton');
+
+      let currentValue = 2023;
+      numberField.value = currentValue;
+
+      decreaseButton.onclick = function() {
+          if (currentValue > 2016) {
+              currentValue--;
+              numberField.value = currentValue;
+          }
+          updateButtonState();
+      };
+
+      increaseButton.onclick = function() {
+          if (currentValue < 2023) {
+              currentValue++;
+              numberField.value = currentValue;
+          }
+          updateButtonState();
+      };
+
+      function updateButtonState() {
+          decreaseButton.disabled = currentValue <= 2016;
+          increaseButton.disabled = currentValue >= 2023;
+
+          for (let i = 2016; i <= 2023; i++) {
+            if (i != currentValue) {
+              $("#year_" + i).hide();
+            } else {
+              $("#year_" + i).show();
+            }
+          }
+      }
+
+      updateButtonState();
+    </script>
+
+  </body>
+</html>
+<!--
+ Based on:
+  https://github.com/pages-themes/minimal
+  https://github.com/orderedlist/minimal
+-->

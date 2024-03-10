@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="{{ site.lang | default: "en-US" }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Robots.txt study</title>
+
+    <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+    <meta name="viewport" content="width=device-width">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="{{ '/assets/js/jquery-3.6.0.min.js?v=' | append: site.github.build_revision | relative_url }}"></script>
+    <style>
+      table.matrix tbody tr th {
+        font-weight: bold;
+      }
+      table tbody th { font-weight: normal; }
+      table tbody td { text-align: right; }
+      #tableContainerContentLength, #tableContainerNumLines, #tableContainerNumUserAgents {
+        height: 0;
+        overflow: hidden;
+        display: inline-block;
+        transition: height 0.5s ease;
+      }
+      .td-ms {
+        font-family: monospace;
+        font-size: 80%;
+      }
+      .td-small {
+        font-size: 90%;
+      }
+    </style>
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>{{ site.title | default: site.github.repository_name }}</h1>
+        <p>{{ site.description | default: site.github.project_tagline }}
+        </p>
+
+        {% if site.show_navigation %}
+          <nav>
+            <p>
+            {% for node in site.navlist %}
+              <a href="{{ site.baseurl }}{{ node.url }}">{{ node.title }}</a><br/>
+            {% endfor %}
+            </p>
+          </nav>
+        {% endif %}
+
+        <p class="view"><a href="https://opencode.it4i.eu/openwebsearcheu-public/commoncrawl-parser">View the Software Project on GitLab</a></p>
+
+      </header>
+      <section>
+
+      {{ content }}
+
+      <h2 style="display: flex; justify-content: space-between;">Content length (file size) <button id="toggleButtonContentLength" style="width: 180px; display: flex; justify-content: space-between;"><span>&#9660;</span> Show website categories</button></h2>
+      {% for table in page.table_content_length_all %}
+      {% include_relative {{ table }} %}
+      {% endfor %}
+      <div id="tableContainerContentLength" style="margin-top: -22px;">
+        {% for table in page.table_content_length_curlie %}
+        {% include_relative {{ table }} %}
+        <br>
+        {% endfor %}
+      </div>
+
+      <h2 style="display: flex; justify-content: space-between;">Number of lines <button id="toggleButtonNumLines" style="width: 180px; display: flex; justify-content: space-between;"><span>&#9660;</span> Show website categories</button></h2>
+      {% for table in page.table_num_lines_all %}
+      {% include_relative {{ table }} %}
+      {% endfor %}
+      <div id="tableContainerNumLines" style="margin-top: -22px;">
+        {% for table in page.table_num_lines_curlie %}
+        {% include_relative {{ table }} %}
+        <br>
+        {% endfor %}
+      </div>
+
+      <h2 style="display: flex; justify-content: space-between;">Number of user agents <button id="toggleButtonNumUserAgents" style="width: 180px; display: flex; justify-content: space-between;"><span>&#9660;</span> Show website categories</button></h2>
+      {% for table in page.table_num_user_agents_all %}
+      {% include_relative {{ table }} %}
+      {% endfor %}
+      <div id="tableContainerNumUserAgents" style="margin-top: -22px;">
+        {% for table in page.table_num_user_agents_curlie %}
+        {% include_relative {{ table }} %}
+        <br>
+        {% endfor %}
+      </div>
+
+      </section>
+      <footer>
+        {% if site.github.is_project_page %}
+        <p>This project is maintained by <a href="{{ site.github.owner_url }}">{{ site.github.owner_name }}</a></p>
+        {% endif %}
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="{{ '/assets/js/scale.fix.js' | relative_url }}"></script>
+    <script>
+      document.getElementById('toggleButtonContentLength').addEventListener('click', function() {
+        var tableContainer = document.getElementById('tableContainerContentLength');
+        var isTableVisible = tableContainer.style.height !== '0px' && tableContainer.style.height !== '';
+        var button = document.getElementById('toggleButtonContentLength');
+
+        if (isTableVisible) {
+            tableContainer.style.height = '0px';
+            button.innerHTML = '<span>&#9660;</span> Show website categories';
+        } else {
+            var tableHeight = tableContainer.scrollHeight;
+            tableContainer.style.height = tableHeight + 'px';
+            button.innerHTML = '<span>&#9650;</span> Hide website categories';
+        }
+      });
+      document.getElementById('toggleButtonNumLines').addEventListener('click', function() {
+        var tableContainer = document.getElementById('tableContainerNumLines');
+        var isTableVisible = tableContainer.style.height !== '0px' && tableContainer.style.height !== '';
+        var button = document.getElementById('toggleButtonNumLines');
+
+        if (isTableVisible) {
+            tableContainer.style.height = '0px';
+            button.innerHTML = '<span>&#9660;</span> Show website categories';
+        } else {
+            var tableHeight = tableContainer.scrollHeight;
+            tableContainer.style.height = tableHeight + 'px';
+            button.innerHTML = '<span>&#9650;</span> Hide website categories';
+        }
+      });
+      document.getElementById('toggleButtonNumUserAgents').addEventListener('click', function() {
+        var tableContainer = document.getElementById('tableContainerNumUserAgents');
+        var isTableVisible = tableContainer.style.height !== '0px' && tableContainer.style.height !== '';
+        var button = document.getElementById('toggleButtonNumUserAgents');
+
+        if (isTableVisible) {
+            tableContainer.style.height = '0px';
+            button.innerHTML = '<span>&#9660;</span> Show website categories';
+        } else {
+            var tableHeight = tableContainer.scrollHeight;
+            tableContainer.style.height = tableHeight + 'px';
+            button.innerHTML = '<span>&#9650;</span> Hide website categories';
+        }
+      });
+    </script>
+
+  </body>
+</html>
+<!--
+ Based on:
+  https://github.com/pages-themes/minimal
+  https://github.com/orderedlist/minimal
+-->

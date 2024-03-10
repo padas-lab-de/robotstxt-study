@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="{{ site.lang | default: "en-US" }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Robots.txt study</title>
+
+    <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+    <meta name="viewport" content="width=device-width">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="{{ '/assets/js/jquery-3.6.0.min.js?v=' | append: site.github.build_revision | relative_url }}"></script>
+    <style type="text/css">
+      table.matrix tbody tr th {
+        font-weight: bold;
+      }
+      table tbody th { font-weight: normal; }
+      table tbody td { text-align: right; }
+      /* .tg  {border-collapse:collapse;border-spacing:0;}
+      .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+        overflow:hidden;padding:10px 10px;word-break:normal;}
+      .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+        font-weight:normal;overflow:hidden;padding:10px 10px;word-break:normal;} */
+      /* .tg .tg-lboi{border-color:inherit;text-align:left;vertical-align:middle;width:55%;}
+      .tg .tg-baqh{text-align:center;vertical-align:top;width:10%;}
+      .tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top;width:55%;font-weight:bold;} */
+      .tg .tg-lboi{ text-align: left; width: 55%; padding-left: 15px; }
+      .tg .tg-baqh{ text-align:center; width: 10%; }
+      .tg .tg-0pky{ width: 55%; font-weight: bold; }
+    </style>
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>{{ site.title | default: site.github.repository_name }}</h1>
+        <p>{{ site.description | default: site.github.project_tagline }}
+        </p>
+
+        {% if site.show_navigation %}
+          <nav>
+            <p>
+            {% for node in site.navlist %}
+              <a href="{{ site.baseurl }}{{ node.url }}">{{ node.title }}</a><br/>
+            {% endfor %}
+            </p>
+          </nav>
+        {% endif %}
+
+        <p class="view"><a href="https://opencode.it4i.eu/openwebsearcheu-public/commoncrawl-parser">View the Software Project on GitLab</a></p>
+
+      </header>
+      <section>
+
+      {{ content }}
+
+      <div style="display: flex; justify-content: center;">
+        <button id="decreaseButton" class="button">&#8592;</button>
+        <input type="text" id="numberField" class="text-field" style="width: 60px; padding: 2px; text-align: center;" readonly>
+        <button id="increaseButton" class="button">&#8594;</button>
+      </div>
+      
+      <br>
+      {% for table in page.tables_years %}
+      {% include_relative {{ table }} %}
+      {% endfor %}
+      <br>
+
+      <!-- <p>The following table shows the annual top ten user agents in comparison.</p>
+      
+      {% for table in page.table_comparsion %}
+      {% include_relative {{ table }} %}
+      <br>
+      {% endfor %} -->
+
+      </section>
+      <footer>
+        {% if site.github.is_project_page %}
+        <p>This project is maintained by <a href="{{ site.github.owner_url }}">{{ site.github.owner_name }}</a></p>
+        {% endif %}
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="{{ '/assets/js/scale.fix.js' | relative_url }}"></script>
+    <script>
+      const numberField = document.getElementById('numberField');
+      const decreaseButton = document.getElementById('decreaseButton');
+      const increaseButton = document.getElementById('increaseButton');
+
+      let currentValue = 2023;
+      numberField.value = currentValue;
+
+      decreaseButton.onclick = function() {
+          if (currentValue > 2016) {
+              currentValue--;
+              numberField.value = currentValue;
+          }
+          updateButtonState();
+      };
+
+      increaseButton.onclick = function() {
+          if (currentValue < 2023) {
+              currentValue++;
+              numberField.value = currentValue;
+          }
+          updateButtonState();
+      };
+
+      function updateButtonState() {
+          decreaseButton.disabled = currentValue <= 2016;
+          increaseButton.disabled = currentValue >= 2023;
+
+          for (let i = 2016; i <= 2023; i++) {
+            if (i != currentValue) {
+              $("#year_" + i).hide();
+            } else {
+              $("#year_" + i).show();
+            }
+          }
+      }
+
+      updateButtonState();
+    </script>
+
+  </body>
+</html>
+<!--
+ Based on:
+  https://github.com/pages-themes/minimal
+  https://github.com/orderedlist/minimal
+-->
